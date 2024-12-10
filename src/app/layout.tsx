@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import TopBar from '@/components/TopBar';
 
 export const metadata: Metadata = {
   title: 'Seu Aeroporto',
@@ -13,7 +14,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR">
-      <body>{children}</body>
+      <body>
+        <TopBar />
+        {children}
+      </body>
     </html>
   );
 }
