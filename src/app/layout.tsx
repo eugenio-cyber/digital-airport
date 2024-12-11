@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import TopBar from '@/components/TopBar';
 import BottomBar from '@/components/BottomBar';
+import { Box } from '@mui/material';
 
 export const metadata: Metadata = {
   title: 'Seu Aeroporto',
@@ -17,7 +18,15 @@ export default function RootLayout({
     <html lang="pt-BR">
       <body>
         <TopBar />
-        {children}
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            background: '#F3F2F2',
+          }}
+        >
+          {children}
+        </Box>
         <BottomBar />
       </body>
     </html>
