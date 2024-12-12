@@ -68,6 +68,11 @@ export default function BottomBar() {
   return (
     <Box
       sx={{
+        position: 'fixed',
+        bottom: '0',
+        left: '0',
+        right: '0',
+        zIndex: 2,
         display: 'flex',
         justifyContent: 'space-between',
         height: '80px',
