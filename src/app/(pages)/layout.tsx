@@ -1,5 +1,5 @@
 import NavigationHeader from '@/components/NavigationHeader';
-import { Box } from '@mui/material';
+import { Container } from '@mui/material';
 
 export default function PagesLayout({
   children,
@@ -9,7 +9,9 @@ export default function PagesLayout({
   return (
     <>
       <NavigationHeader />
-      <Box sx={{ paddingTop: '40px' }}>{children}</Box>
+      <Container maxWidth="md" sx={{ paddingTop: '40px' }}>
+        {children}
+      </Container>
     </>
   );
 }
