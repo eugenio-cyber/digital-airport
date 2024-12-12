@@ -1,8 +1,11 @@
 import { NextResponse } from 'next/server';
 import Menu from '@/models/Menu';
+import connect from '@/database/mongodb';
 
 export async function GET() {
   try {
+    await connect();
+
     const menuItems = await Menu.find().sort({ order: 1 });
     return NextResponse.json(menuItems, { status: 200 });
   } catch (error) {
