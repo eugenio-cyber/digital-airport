@@ -22,6 +22,8 @@ export default function RootLayout({
           sx={{
             display: 'flex',
             justifyContent: 'center',
+            height: 'calc(100vh - 160px)',
+            margin: '80px 0 0 0',
             background: '#F3F2F2',
           }}
         >

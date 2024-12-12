@@ -36,8 +36,6 @@ export default function Home() {
     <Container
       maxWidth="md"
       sx={{
-        height: 'calc(100vh - 160px)',
-        margin: '80px 0 0 0',
         display: 'flex',
         flexDirection: 'column',
         paddingTop: {
