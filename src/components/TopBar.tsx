@@ -6,7 +6,10 @@ export default function TopBar() {
     <AppBar
       style={{
         position: 'fixed',
-        top: '0px',
+        top: '0',
+        left: '0',
+        right: '0',
+        zIndex: 2,
         display: 'flex',
         justifyContent: 'center',
         width: '100vw',
