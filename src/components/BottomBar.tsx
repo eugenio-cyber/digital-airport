@@ -55,8 +55,8 @@ export default function BottomBar() {
   useEffect(() => {
     setInterval(() => {
       const currentDate = new Date();
-      const hour = currentDate.getHours();
-      const minute = currentDate.getMinutes();
+      const hour = `0${currentDate.getHours()}`.slice(-2);
+      const minute = `0${currentDate.getMinutes()}`.slice(-2);
       const currentTime = `${hour}:${minute}`;
 
       setTime(currentTime);
@@ -151,7 +151,7 @@ export default function BottomBar() {
                 src={option.flagUrl}
                 width={24}
                 height={24}
-                alt="Ícone de casa"
+                alt={`Ícone da bandeira para ${option.name}`}
               />
               {option.name}
             </MenuItem>
