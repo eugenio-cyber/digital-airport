@@ -55,8 +55,8 @@ export default function BottomBar() {
   useEffect(() => {
     setInterval(() => {
       const currentDate = new Date();
-      const hour = currentDate.getHours();
-      const minute = currentDate.getMinutes();
+      const hour = `0${currentDate.getHours()}`.slice(-2);
+      const minute = `0${currentDate.getMinutes()}`.slice(-2);
       const currentTime = `${hour}:${minute}`;
 
       setTime(currentTime);
