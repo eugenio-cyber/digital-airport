@@ -27,6 +27,7 @@
 #### Checklist
 
 - [ ] Code reviewed and tested locally;
+- [ ] Optimized the images (if any);
 - [ ] Unit tests added or updated;
 - [ ] Documentation updated;
 - [ ] Reviewed by at least one team member;
