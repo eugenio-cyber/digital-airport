@@ -36,9 +36,7 @@ export default function BottomBar() {
     setOpen(null);
   }, []);
 
-  const formatDate = () => {
-    const currentDate = new Date();
-
+  const formatDate = (currentDate: Date) => {
     const options = {
       weekday: 'long',
       day: 'numeric',
@@ -53,6 +51,8 @@ export default function BottomBar() {
   };
 
   useEffect(() => {
+    const currentDate = new Date();
+
     setInterval(() => {
       const currentDate = new Date();
       const hour = `0${currentDate.getHours()}`.slice(-2);
@@ -62,7 +62,7 @@ export default function BottomBar() {
       setTime(currentTime);
     }, 1000);
 
-    formatDate();
+    formatDate(currentDate);
   }, []);
 
   return (
@@ -156,7 +156,7 @@ export default function BottomBar() {
                 src={option.flagUrl}
                 width={24}
                 height={24}
-                alt="Ícone de casa"
+                alt={`Ícone da bandeira para ${option.name}`}
               />
               {option.name}
             </MenuItem>
