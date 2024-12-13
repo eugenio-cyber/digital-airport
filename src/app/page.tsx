@@ -42,6 +42,10 @@ export default function Home() {
           xs: '2rem',
           lg: '4rem',
         },
+        paddingBottom: {
+          xs: '0.25rem',
+          lg: '0.75rem',
+        },
       }}
     >
       <Box sx={{ textAlign: 'center', paddingBottom: '2rem' }}>
@@ -120,7 +124,6 @@ export default function Home() {
                   width={60}
                   height={60}
                   alt={menuItems[0].label}
-                  style={{ fill: menuItems[0].textColor }}
                 />
               </Link>
             </Box>
@@ -258,7 +261,6 @@ export default function Home() {
                   width={60}
                   height={60}
                   alt={menuItems[3].label}
-                  style={{ fill: menuItems[3].textColor }}
                 />
               </Link>
             </Box>
@@ -303,7 +305,6 @@ export default function Home() {
                   width={60}
                   height={60}
                   alt={menuItems[4].label}
-                  style={{ fill: menuItems[4].textColor }}
                 />
               </Link>
             </Box>
