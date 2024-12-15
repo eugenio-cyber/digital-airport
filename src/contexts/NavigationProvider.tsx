@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useState } from 'react';
 
-export interface NavigationContextProps {
+interface NavigationContextProps {
   title: string;
   setTitle(title: string): void;
   headerColor: string;
@@ -10,6 +10,8 @@ export interface NavigationContextProps {
   menuItems: MenuItem[];
   setMenuItems(items: MenuItem[]): void;
   fetchMenuItems(): Promise<void>;
+  establishments: Establishments[];
+  fetchEstablishments(): Promise<void>;
 }
 
 interface MenuItem {
@@ -21,6 +23,16 @@ interface MenuItem {
   textColor: string;
 }
 
+export interface Establishments {
+  name: string;
+  logo: string;
+  address: string;
+  phone: number;
+  openingHours: object;
+  serviceCategories: string[];
+  segments: string[];
+}
+
 const NavigationContext = createContext<NavigationContextProps>({} as any);
 
 export function NavigationProvider({
@@ -29,6 +41,7 @@ export function NavigationProvider({
   children: React.ReactNode;
 }>) {
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
+  const [establishments, setEstablishments] = useState<Establishments[]>([]);
   const [title, setTitle] = useState<string>('');
   const [headerColor, setHeaderColor] = useState<string>('');
 
@@ -45,6 +58,19 @@ export function NavigationProvider({
     }
   };
 
+  const fetchEstablishments = async () => {
+    if (establishments.length > 0) return;
+
+    try {
+      const response = await fetch('/api/establishments');
+      const data = await response.json();
+
+      setEstablishments(data);
+    } catch (error) {
+      console.error('Erro ao buscar os estabelecimentos:', error);
+    }
+  };
+
   return (
     <NavigationContext.Provider
       value={{
@@ -55,6 +81,8 @@ export function NavigationProvider({
         headerColor,
         setHeaderColor,
         fetchMenuItems,
+        establishments,
+        fetchEstablishments,
       }}
     >
       {children}
