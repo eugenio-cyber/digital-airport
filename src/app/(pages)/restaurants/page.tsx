@@ -5,13 +5,13 @@ import { useNavigation } from '@/contexts/NavigationProvider';
 import { Box, Typography } from '@mui/material';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
-import { Establishments } from '@/contexts/NavigationProvider';
+import { Establishment } from '@/contexts/NavigationProvider';
 
 export default function RestaurantsPage() {
-  const { establishments, fetchEstablishments } = useNavigation();
+  const { restaurants, fetchEstablishments } = useNavigation();
   const [filterText, setFilterText] = useState<string>('');
-  const [filteredEstablishments, setFilteredEstablishments] = useState<
-    Establishments[]
+  const [filteredRestaurants, setFilteredRestaurants] = useState<
+    Establishment[]
   >([]);
 
   useEffect(() => {
@@ -19,16 +19,16 @@ export default function RestaurantsPage() {
   }, []);
 
   useEffect(() => {
-    const localEstablishments = establishments.filter((establishment) =>
-      establishment.name.toLowerCase().includes(filterText.toLowerCase())
+    const localRestaurants = restaurants.filter((restaurant) =>
+      restaurant.name.toLowerCase().includes(filterText.toLowerCase())
     );
 
-    setFilteredEstablishments(localEstablishments);
+    setFilteredRestaurants(localRestaurants);
   }, [filterText]);
 
   useEffect(() => {
-    if (establishments.length > 0) setFilteredEstablishments(establishments);
-  }, [establishments]);
+    if (restaurants.length) setFilteredRestaurants(restaurants);
+  }, [restaurants]);
 
   return (
     <Box sx={{ pt: '1.75rem' }}>
@@ -37,8 +37,8 @@ export default function RestaurantsPage() {
         value={filterText}
         changeValue={setFilterText}
       />
-      {filteredEstablishments.length > 0 &&
-        filteredEstablishments.map((establishment) => {
+      {filteredRestaurants.length > 0 &&
+        filteredRestaurants.map((restaurant) => {
           return (
             <Box
               sx={{
@@ -57,7 +57,7 @@ export default function RestaurantsPage() {
                 }}
               >
                 <Image
-                  src={establishment.logo}
+                  src={restaurant.logo}
                   width={52}
                   height={52}
                   style={{
@@ -65,15 +65,15 @@ export default function RestaurantsPage() {
                     objectFit: 'cover',
                     objectPosition: 'center',
                   }}
-                  alt={establishment.name}
+                  alt={restaurant.name}
                 ></Image>
                 <Box>
                   <Typography sx={{ mb: '2px', fontWeight: 600 }}>
-                    {establishment.name}
+                    {restaurant.name}
                   </Typography>
                   <Typography
                     sx={{ fontSize: '14px', color: '#00000099' }}
-                  >{`${establishment.serviceCategories[0]}-${establishment.address}`}</Typography>
+                  >{`${restaurant.serviceCategories[0]}-${restaurant.address}`}</Typography>
                 </Box>
               </Box>
             </Box>

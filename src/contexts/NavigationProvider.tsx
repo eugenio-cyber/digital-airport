@@ -10,7 +10,7 @@ interface NavigationContextProps {
   menuItems: MenuItem[];
   setMenuItems(items: MenuItem[]): void;
   fetchMenuItems(): Promise<void>;
-  establishments: Establishments[];
+  restaurants: Establishment[];
   fetchEstablishments(): Promise<void>;
 }
 
@@ -23,7 +23,7 @@ interface MenuItem {
   textColor: string;
 }
 
-export interface Establishments {
+export interface Establishment {
   name: string;
   logo: string;
   address: string;
@@ -41,7 +41,7 @@ export function NavigationProvider({
   children: React.ReactNode;
 }>) {
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
-  const [establishments, setEstablishments] = useState<Establishments[]>([]);
+  const [restaurants, setRestaurants] = useState<Establishment[]>([]);
   const [title, setTitle] = useState<string>('');
   const [headerColor, setHeaderColor] = useState<string>('');
 
@@ -59,13 +59,17 @@ export function NavigationProvider({
   };
 
   const fetchEstablishments = async () => {
-    if (establishments.length > 0) return;
+    if (restaurants.length) return;
 
     try {
       const response = await fetch('/api/establishments');
       const data = await response.json();
 
-      setEstablishments(data);
+      const localRestaurants = data.filter((establishment: Establishment) => {
+        return establishment.segments.includes('restaurant');
+      });
+
+      setRestaurants(localRestaurants);
     } catch (error) {
       console.error('Erro ao buscar os estabelecimentos:', error);
     }
@@ -81,7 +85,7 @@ export function NavigationProvider({
         headerColor,
         setHeaderColor,
         fetchMenuItems,
-        establishments,
+        restaurants,
         fetchEstablishments,
       }}
     >
