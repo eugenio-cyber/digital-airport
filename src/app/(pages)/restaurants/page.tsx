@@ -2,10 +2,10 @@
 
 import SearchBar from '@/components/SearchBar';
 import { useNavigation } from '@/contexts/NavigationProvider';
-import { Box, Typography } from '@mui/material';
-import Image from 'next/image';
+import { Box } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { Establishment } from '@/contexts/NavigationProvider';
+import EstablishmentCard from '@/components/EstablishmentCard';
 
 export default function RestaurantsPage() {
   const { restaurants, fetchEstablishments } = useNavigation();
@@ -47,35 +47,7 @@ export default function RestaurantsPage() {
                 '&:last-child div': { border: 0 },
               }}
             >
-              <Box
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '.75rem',
-                  borderBottom: '1px solid #0000001F',
-                  py: '1rem',
-                }}
-              >
-                <Image
-                  src={restaurant.logo}
-                  width={52}
-                  height={52}
-                  style={{
-                    borderRadius: '50%',
-                    objectFit: 'cover',
-                    objectPosition: 'center',
-                  }}
-                  alt={restaurant.name}
-                ></Image>
-                <Box>
-                  <Typography sx={{ mb: '2px', fontWeight: 600 }}>
-                    {restaurant.name}
-                  </Typography>
-                  <Typography
-                    sx={{ fontSize: '14px', color: '#00000099' }}
-                  >{`${restaurant.serviceCategories[0]}-${restaurant.address}`}</Typography>
-                </Box>
-              </Box>
+              <EstablishmentCard establishment={restaurant}></EstablishmentCard>
             </Box>
           );
         })}

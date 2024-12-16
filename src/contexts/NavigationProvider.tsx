@@ -11,6 +11,8 @@ interface NavigationContextProps {
   setMenuItems(items: MenuItem[]): void;
   fetchMenuItems(): Promise<void>;
   restaurants: Establishment[];
+  stores: Establishment[];
+  services: Establishment[];
   fetchEstablishments(): Promise<void>;
 }
 
@@ -42,6 +44,8 @@ export function NavigationProvider({
 }>) {
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
   const [restaurants, setRestaurants] = useState<Establishment[]>([]);
+  const [stores, setStores] = useState<Establishment[]>([]);
+  const [services, setServices] = useState<Establishment[]>([]);
   const [title, setTitle] = useState<string>('');
   const [headerColor, setHeaderColor] = useState<string>('');
 
@@ -59,7 +63,7 @@ export function NavigationProvider({
   };
 
   const fetchEstablishments = async () => {
-    if (restaurants.length) return;
+    if (restaurants.length || stores.length || services.length) return;
 
     try {
       const response = await fetch('/api/establishments');
@@ -69,7 +73,17 @@ export function NavigationProvider({
         return establishment.segments.includes('restaurant');
       });
 
+      const localStores = data.filter((establishment: Establishment) => {
+        return establishment.segments.includes('store');
+      });
+
+      const localServices = data.filter((establishment: Establishment) => {
+        return establishment.segments.includes('service');
+      });
+
       setRestaurants(localRestaurants);
+      setStores(localStores);
+      setServices(localServices);
     } catch (error) {
       console.error('Erro ao buscar os estabelecimentos:', error);
     }
@@ -86,6 +100,8 @@ export function NavigationProvider({
         setHeaderColor,
         fetchMenuItems,
         restaurants,
+        stores,
+        services,
         fetchEstablishments,
       }}
     >
