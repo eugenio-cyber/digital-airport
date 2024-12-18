@@ -1,12 +1,23 @@
 'use client';
 
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useState } from 'react';
 
 export interface NavigationContextProps {
-  title: string;
-  setTitle(title: string): void;
+  headerTitle: string;
+  setHeaderTitle(title: string): void;
   headerColor: string;
   setHeaderColor(color: string): void;
+  fetchMenuItems(): Promise<void>;
+  menuItems: MenuItem[];
+}
+
+interface MenuItem {
+  _id: string;
+  label: string;
+  ref: string;
+  icon: string;
+  backgroundColor: string;
+  textColor: string;
 }
 
 const NavigationContext = createContext<NavigationContextProps>({} as any);
@@ -16,16 +27,37 @@ export function NavigationProvider({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [title, setTitle] = useState<string>('');
+  const [headerTitle, setHeaderTitle] = useState<string>('');
   const [headerColor, setHeaderColor] = useState<string>('');
+  const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
+
+  const fetchMenuItems = async () => {
+    if (menuItems.length > 0) return;
+
+    try {
+      const response = await fetch('/api/menu');
+      const data = await response.json();
+
+      setMenuItems(data);
+    } catch (error) {
+      console.error('Erro ao buscar itens do menu:', error);
+    }
+  };
 
   return (
     <NavigationContext.Provider
-      value={{ title, setTitle, headerColor, setHeaderColor }}
+      value={{
+        headerTitle,
+        setHeaderTitle,
+        headerColor,
+        setHeaderColor,
+        fetchMenuItems,
+        menuItems,
+      }}
     >
       {children}
     </NavigationContext.Provider>
   );
 }
 
-export const useNavigation = () => useContext(NavigationContext);
+export default NavigationContext;
