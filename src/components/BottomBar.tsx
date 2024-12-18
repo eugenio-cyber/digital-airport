@@ -36,9 +36,7 @@ export default function BottomBar() {
     setOpen(null);
   }, []);
 
-  const formatDate = () => {
-    const currentDate = new Date();
-
+  const formatDate = (currentDate: Date) => {
     const options = {
       weekday: 'long',
       day: 'numeric',
@@ -53,16 +51,18 @@ export default function BottomBar() {
   };
 
   useEffect(() => {
+    const currentDate = new Date();
+
     setInterval(() => {
       const currentDate = new Date();
-      const hour = currentDate.getHours();
-      const minute = currentDate.getMinutes();
+      const hour = `0${currentDate.getHours()}`.slice(-2);
+      const minute = `0${currentDate.getMinutes()}`.slice(-2);
       const currentTime = `${hour}:${minute}`;
 
       setTime(currentTime);
     }, 1000);
 
-    formatDate();
+    formatDate(currentDate);
   }, []);
 
   return (
@@ -111,7 +111,7 @@ export default function BottomBar() {
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
-              padding: '6px',
+              padding: '.25rem',
               borderRadius: '50%',
               backgroundColor: '#FFFFFF',
               boxShadow: '9.25px 9.25px 18.5px 0px #AEAEC066',
@@ -156,7 +156,7 @@ export default function BottomBar() {
                 src={option.flagUrl}
                 width={24}
                 height={24}
-                alt="Ícone de casa"
+                alt={`Ícone da bandeira para ${option.name}`}
               />
               {option.name}
             </MenuItem>
