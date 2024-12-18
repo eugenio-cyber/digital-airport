@@ -8,6 +8,7 @@ interface NavigationContextProps {
   setHeaderTitle(title: string): void;
   headerColor: string;
   setHeaderColor(color: string): void;
+  menuItems: MenuItem[];
   fetchMenuItems(): Promise<void>;
   restaurants: Establishment[];
   stores: Establishment[];
@@ -128,6 +129,7 @@ export function NavigationProvider({
         setHeaderTitle,
         headerColor,
         setHeaderColor,
+        menuItems,
         fetchMenuItems,
         restaurants,
         stores,
