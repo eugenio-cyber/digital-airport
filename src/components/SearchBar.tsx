@@ -22,7 +22,7 @@ export default function SearchBar({
         changeValue(e.target.value);
       }}
       placeholder={placeholder}
-      sx={{ mb: '1.5rem', width: '100%' }}
+      sx={{ mb: '1.5rem' }}
       slotProps={{
         input: {
           startAdornment: (

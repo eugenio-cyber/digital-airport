@@ -2,7 +2,7 @@
 
 import NavigationHeader from '@/components/NavigationHeader';
 import useNavigation from '@/hooks/useNavigation';
-import { Box } from '@mui/material';
+import { Container } from '@mui/material';
 import { useEffect } from 'react';
 
 export default function PagesLayout({
