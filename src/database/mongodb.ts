@@ -5,8 +5,8 @@ export default async function connect() {
     await mongoose.connect(process.env.MONGODB || '');
   } catch (error) {
     throw new Error(
-      'Please define the MONGODB environment variable inside .env',
-      error
+      'Please define the MONGODB environment variable inside .env. Error: ' +
+        error
     );
   }
 }
