@@ -8,8 +8,13 @@ import { usePathname } from 'next/navigation';
 import { useEffect } from 'react';
 
 export default function NavigationHeader() {
-  const { currentEstablishment, title, setTitle, headerColor, setHeaderColor } =
-    useNavigation();
+  const {
+    currentEstablishment,
+    headerTitle,
+    setHeaderTitle,
+    headerColor,
+    setHeaderColor,
+  } = useNavigation();
   const pathname = usePathname();
   const pageConfig: { [key: string]: { title: string; color: string } } = {
     '/flights': { title: 'Informações de Voos', color: '#1C1611' },
@@ -25,17 +30,17 @@ export default function NavigationHeader() {
 
   function updateNavigationHeader(pathname: string) {
     if (pathname.startsWith('/restaurants/')) {
-      setTitle('Restaurante');
+      setHeaderTitle('Restaurante');
       setHeaderColor(pageConfig['/restaurants'].color);
     } else if (pathname.startsWith('/services/')) {
       if (currentEstablishment) {
-        setTitle(
+        setHeaderTitle(
           currentEstablishment.segments.includes('store') ? 'Loja' : 'Serviço'
         );
         setHeaderColor(pageConfig['/services'].color);
       }
     } else if (pageConfig[pathname]) {
-      setTitle(pageConfig[pathname].title);
+      setHeaderTitle(pageConfig[pathname].title);
       setHeaderColor(pageConfig[pathname].color);
     }
   }
@@ -46,7 +51,7 @@ export default function NavigationHeader() {
 
   return (
     <>
-      {title && headerColor && (
+      {headerTitle && headerColor && (
         <Box
           sx={{
             position: 'fixed',
@@ -80,7 +85,7 @@ export default function NavigationHeader() {
               component="span"
               sx={{ color: 'white', fontWeight: 600, fontSize: '1.25rem' }}
             >
-              {title}
+              {headerTitle}
             </Typography>
           </Link>
         </Box>

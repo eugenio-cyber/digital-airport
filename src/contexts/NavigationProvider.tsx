@@ -4,12 +4,10 @@ import { createAlias } from '@/utils/EstablishmentUtils';
 import React, { createContext, useState } from 'react';
 
 interface NavigationContextProps {
-  title: string;
-  setTitle(title: string): void;
+  headerTitle: string;
+  setHeaderTitle(title: string): void;
   headerColor: string;
   setHeaderColor(color: string): void;
-  menuItems: MenuItem[];
-  setMenuItems(items: MenuItem[]): void;
   fetchMenuItems(): Promise<void>;
   restaurants: Establishment[];
   stores: Establishment[];
@@ -51,6 +49,8 @@ export function NavigationProvider({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const [headerTitle, setHeaderTitle] = useState<string>('');
+  const [headerColor, setHeaderColor] = useState<string>('');
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
   const [restaurants, setRestaurants] = useState<Establishment[]>([]);
   const [stores, setStores] = useState<Establishment[]>([]);
@@ -58,8 +58,6 @@ export function NavigationProvider({
   const [currentEstablishment, setCurrentEstablishment] = useState<
     Establishment | undefined
   >();
-  const [title, setTitle] = useState<string>('');
-  const [headerColor, setHeaderColor] = useState<string>('');
 
   const fetchMenuItems = async () => {
     if (menuItems.length > 0) return;
@@ -126,10 +124,8 @@ export function NavigationProvider({
   return (
     <NavigationContext.Provider
       value={{
-        menuItems,
-        setMenuItems,
-        title,
-        setTitle,
+        headerTitle,
+        setHeaderTitle,
         headerColor,
         setHeaderColor,
         fetchMenuItems,
