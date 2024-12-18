@@ -2,7 +2,7 @@
 
 import NavigationHeader from '@/components/NavigationHeader';
 import useNavigation from '@/hooks/useNavigation';
-import { Box } from '@mui/material';
+import { Container } from '@mui/material';
 import { useEffect } from 'react';
 
 export default function PagesLayout({
@@ -19,7 +19,9 @@ export default function PagesLayout({
   return (
     <>
       <NavigationHeader />
-      <Box sx={{ paddingTop: '40px' }}>{children}</Box>
+      <Container maxWidth="md" sx={{ paddingTop: '40px' }}>
+        {children}
+      </Container>
     </>
   );
 }
