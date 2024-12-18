@@ -111,7 +111,7 @@ export default function BottomBar() {
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
-              padding: '6px',
+              padding: '.25rem',
               borderRadius: '50%',
               backgroundColor: '#FFFFFF',
               boxShadow: '9.25px 9.25px 18.5px 0px #AEAEC066',

@@ -1,15 +1,14 @@
 'use client';
 
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useState } from 'react';
 
 export interface NavigationContextProps {
-  title: string;
-  setTitle(title: string): void;
+  headerTitle: string;
+  setHeaderTitle(title: string): void;
   headerColor: string;
   setHeaderColor(color: string): void;
-  menuItems: MenuItem[];
-  setMenuItems(items: MenuItem[]): void;
   fetchMenuItems(): Promise<void>;
+  menuItems: MenuItem[];
 }
 
 interface MenuItem {
@@ -28,9 +27,9 @@ export function NavigationProvider({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
-  const [title, setTitle] = useState<string>('');
+  const [headerTitle, setHeaderTitle] = useState<string>('');
   const [headerColor, setHeaderColor] = useState<string>('');
+  const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
 
   const fetchMenuItems = async () => {
     if (menuItems.length > 0) return;
@@ -48,13 +47,12 @@ export function NavigationProvider({
   return (
     <NavigationContext.Provider
       value={{
-        menuItems,
-        setMenuItems,
-        title,
-        setTitle,
+        headerTitle,
+        setHeaderTitle,
         headerColor,
         setHeaderColor,
         fetchMenuItems,
+        menuItems,
       }}
     >
       {children}
@@ -62,4 +60,4 @@ export function NavigationProvider({
   );
 }
 
-export const useNavigation = () => useContext(NavigationContext);
+export default NavigationContext;
