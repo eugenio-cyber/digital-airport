@@ -1,41 +1,15 @@
 'use client';
 
-import { useNavigation } from '@/contexts/NavigationProvider';
+import useNavigation from '@/hooks/useNavigation';
 import { Box, CircularProgress, Container, Typography } from '@mui/material';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
-interface MenuItem {
-  _id: string;
-  label: string;
-  ref: string;
-  icon: string;
-  backgroundColor: string;
-  textColor: string;
-}
-
 export default function Home() {
-  const { setTitle, setHeaderColor } = useNavigation();
-  const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
-
-  function handleClickMenu(title: string, headerColor: string) {
-    setTitle(title);
-    setHeaderColor(headerColor);
-  }
+  const { fetchMenuItems, menuItems } = useNavigation();
 
   useEffect(() => {
-    const fetchMenuItems = async () => {
-      try {
-        const response = await fetch('/api/menu');
-        const data = await response.json();
-
-        setMenuItems(data);
-      } catch (error) {
-        console.error('Erro ao buscar itens do menu:', error);
-      }
-    };
-
     fetchMenuItems();
   }, []);
 
@@ -99,12 +73,6 @@ export default function Home() {
               }}
             >
               <Link
-                onClick={() =>
-                  handleClickMenu(
-                    'Informações de voos',
-                    menuItems[0].backgroundColor
-                  )
-                }
                 href={menuItems[0].ref}
                 style={{
                   display: 'flex',
@@ -152,12 +120,6 @@ export default function Home() {
               }}
             >
               <Link
-                onClick={() =>
-                  handleClickMenu(
-                    menuItems[1].label,
-                    menuItems[1].backgroundColor
-                  )
-                }
                 href={menuItems[1].ref}
                 style={{
                   display: 'flex',
@@ -202,12 +164,6 @@ export default function Home() {
               }}
             >
               <Link
-                onClick={() =>
-                  handleClickMenu(
-                    menuItems[2].label,
-                    menuItems[2].backgroundColor
-                  )
-                }
                 href={menuItems[2].ref}
                 style={{
                   display: 'flex',
@@ -254,12 +210,6 @@ export default function Home() {
               }}
             >
               <Link
-                onClick={() =>
-                  handleClickMenu(
-                    menuItems[3].label,
-                    menuItems[3].backgroundColor
-                  )
-                }
                 href={menuItems[3].ref}
                 style={{
                   display: 'flex',
@@ -309,12 +259,6 @@ export default function Home() {
               }}
             >
               <Link
-                onClick={() =>
-                  handleClickMenu(
-                    menuItems[4].label,
-                    menuItems[4].backgroundColor
-                  )
-                }
                 href={menuItems[4].ref}
                 style={{
                   display: 'flex',
