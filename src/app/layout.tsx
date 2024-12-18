@@ -3,6 +3,7 @@ import './globals.css';
 import TopBar from '@/components/TopBar';
 import BottomBar from '@/components/BottomBar';
 import { Box } from '@mui/material';
+import { NavigationProvider } from '@/contexts/NavigationProvider';
 
 export const metadata: Metadata = {
   title: 'Seu Aeroporto',
@@ -27,7 +28,7 @@ export default function RootLayout({
             background: '#F3F2F2',
           }}
         >
-          {children}
+          <NavigationProvider>{children}</NavigationProvider>
         </Box>
         <BottomBar />
       </body>

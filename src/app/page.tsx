@@ -1,34 +1,15 @@
 'use client';
 
+import useNavigation from '@/hooks/useNavigation';
 import { Box, CircularProgress, Container, Typography } from '@mui/material';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
-interface MenuItem {
-  _id: string;
-  label: string;
-  ref: string;
-  icon: string;
-  backgroundColor: string;
-  textColor: string;
-}
-
 export default function Home() {
-  const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
+  const { fetchMenuItems, menuItems } = useNavigation();
 
   useEffect(() => {
-    const fetchMenuItems = async () => {
-      try {
-        const response = await fetch('/api/menu');
-        const data = await response.json();
-
-        setMenuItems(data);
-      } catch (error) {
-        console.error('Erro ao buscar itens do menu:', error);
-      }
-    };
-
     fetchMenuItems();
   }, []);
 
