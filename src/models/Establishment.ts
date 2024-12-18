@@ -27,6 +27,18 @@ const establishmentSchema = new Schema({
       message: 'Wrong phone number',
     },
   },
+  backgroundImage: {
+    type: String,
+    require: false,
+  },
+  locationId: {
+    type: String,
+    required: true,
+  },
+  instagram: {
+    type: String,
+    required: false,
+  },
 });
 
 const Establishment =

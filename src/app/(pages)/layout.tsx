@@ -1,8 +1,9 @@
 'use client';
 
 import NavigationHeader from '@/components/NavigationHeader';
-import { useNavigation } from '@/contexts/NavigationProvider';
-import { Container } from '@mui/material';
+import useNavigation from '@/hook/useNavigation';
+import { Box, Container } from '@mui/material';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useEffect } from 'react';
 
@@ -11,31 +12,53 @@ export default function PagesLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const { menuItems, setTitle, setHeaderColor, fetchMenuItems } =
+  const { currentEstablishment, fetchMenuItems, fetchEstablishments } =
     useNavigation();
   const pathname = usePathname();
 
   useEffect(() => {
     fetchMenuItems();
+    fetchEstablishments();
   }, []);
 
-  useEffect(() => {
-    let menuItem = menuItems.find((item) => item.ref === pathname);
-
-    if (!menuItem) {
-      menuItem = menuItems.find((item) => pathname.includes(item.ref));
-    }
-
-    setTitle(menuItem?.label || '');
-    setHeaderColor(menuItem?.backgroundColor || '');
-  }, [menuItems]);
-
   return (
-    <>
+    <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
       <NavigationHeader />
-      <Container maxWidth="md" sx={{ paddingTop: '40px' }}>
+      {currentEstablishment &&
+        currentEstablishment.backgroundImage &&
+        pathname.split('/').length > 2 && (
+          <Box
+            sx={{
+              width: '100%',
+              height: {
+                xs: '20vh',
+                md: '40vh',
+              },
+              mt: '40px',
+              position: 'relative',
+            }}
+          >
+            <Image
+              src={currentEstablishment.backgroundImage}
+              fill
+              alt={currentEstablishment.name}
+              style={{ objectFit: 'cover', objectPosition: 'center' }}
+            />
+          </Box>
+        )}
+      <Container
+        maxWidth="md"
+        sx={{
+          mt:
+            currentEstablishment &&
+            currentEstablishment.backgroundImage &&
+            pathname.split('/').length > 2
+              ? '0px'
+              : '40px',
+        }}
+      >
         {children}
       </Container>
-    </>
+    </Box>
   );
 }

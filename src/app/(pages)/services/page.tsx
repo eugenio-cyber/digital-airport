@@ -1,14 +1,14 @@
 'use client';
 
 import SearchBar from '@/components/SearchBar';
-import { useNavigation } from '@/contexts/NavigationProvider';
 import { Box, Button } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { Establishment } from '@/contexts/NavigationProvider';
 import EstablishmentCard from '@/components/EstablishmentCard';
+import useNavigation from '@/hook/useNavigation';
 
 export default function ServicesPage() {
-  const { stores, services, fetchEstablishments } = useNavigation();
+  const { stores, services } = useNavigation();
   const [filterText, setFilterText] = useState<string>('');
   const [chosenSegment, setChosenSegment] = useState<'store' | 'service'>(
     'store'
@@ -40,10 +40,6 @@ export default function ServicesPage() {
     color: '#3CA0B9',
     backgroundColor: '#3CA0B917',
   };
-
-  useEffect(() => {
-    fetchEstablishments();
-  }, []);
 
   useEffect(() => {
     if (chosenSegment == 'store') {
@@ -104,39 +100,33 @@ export default function ServicesPage() {
         value={filterText}
         changeValue={setFilterText}
       />
-      {chosenSegment === 'store'
-        ? filteredStores.length > 0 &&
-          filteredStores.map((establishment: Establishment) => {
-            return (
-              <Box
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  '&:last-child div': { border: 0 },
-                }}
-              >
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          '&:last-child div': { border: 0 },
+        }}
+      >
+        {chosenSegment === 'store'
+          ? filteredStores.length > 0 &&
+            filteredStores.map((establishment: Establishment) => {
+              return (
                 <EstablishmentCard
+                  key={establishment.name}
                   establishment={establishment}
-                ></EstablishmentCard>
-              </Box>
-            );
-          })
-        : filteredServices.length > 0 &&
-          filteredServices.map((establishment: Establishment) => {
-            return (
-              <Box
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  '&:last-child div': { border: 0 },
-                }}
-              >
+                />
+              );
+            })
+          : filteredServices.length > 0 &&
+            filteredServices.map((establishment: Establishment) => {
+              return (
                 <EstablishmentCard
+                  key={establishment.name}
                   establishment={establishment}
-                ></EstablishmentCard>
-              </Box>
-            );
-          })}
+                />
+              );
+            })}
+      </Box>
     </Box>
   );
 }

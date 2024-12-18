@@ -1,22 +1,18 @@
 'use client';
 
 import SearchBar from '@/components/SearchBar';
-import { useNavigation } from '@/contexts/NavigationProvider';
 import { Box } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { Establishment } from '@/contexts/NavigationProvider';
 import EstablishmentCard from '@/components/EstablishmentCard';
+import useNavigation from '@/hook/useNavigation';
 
 export default function RestaurantsPage() {
-  const { restaurants, fetchEstablishments } = useNavigation();
+  const { restaurants } = useNavigation();
   const [filterText, setFilterText] = useState<string>('');
   const [filteredRestaurants, setFilteredRestaurants] = useState<
     Establishment[]
   >([]);
-
-  useEffect(() => {
-    fetchEstablishments();
-  }, []);
 
   useEffect(() => {
     const localRestaurants = restaurants.filter((restaurant) =>
@@ -37,20 +33,23 @@ export default function RestaurantsPage() {
         value={filterText}
         changeValue={setFilterText}
       />
-      {filteredRestaurants.length > 0 &&
-        filteredRestaurants.map((restaurant) => {
-          return (
-            <Box
-              sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                '&:last-child div': { border: 0 },
-              }}
-            >
-              <EstablishmentCard establishment={restaurant}></EstablishmentCard>
-            </Box>
-          );
-        })}
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          '&:last-child div': { border: 0 },
+        }}
+      >
+        {filteredRestaurants.length > 0 &&
+          filteredRestaurants.map((restaurant) => {
+            return (
+              <EstablishmentCard
+                key={restaurant.name}
+                establishment={restaurant}
+              />
+            );
+          })}
+      </Box>
     </Box>
   );
 }

@@ -1,6 +1,7 @@
 'use client';
 
-import React, { createContext, useContext, useState } from 'react';
+import { createAlias } from '@/utils/EstablishmentUtils';
+import React, { createContext, useState } from 'react';
 
 interface NavigationContextProps {
   title: string;
@@ -13,6 +14,11 @@ interface NavigationContextProps {
   restaurants: Establishment[];
   stores: Establishment[];
   services: Establishment[];
+  currentEstablishment: Establishment | undefined;
+  setCurrentEstablishment(
+    currentEstablishment: Establishment | undefined
+  ): void;
+  findEstablishment(establishmentName: string): void;
   fetchEstablishments(): Promise<void>;
 }
 
@@ -32,7 +38,10 @@ export interface Establishment {
   phone: number;
   openingHours: object;
   serviceCategories: string[];
-  segments: string[];
+  segments: ('restaurant' | 'store' | 'service')[];
+  backgroundImage?: string;
+  locationId: string;
+  instagram?: string;
 }
 
 const NavigationContext = createContext<NavigationContextProps>({} as any);
@@ -46,6 +55,9 @@ export function NavigationProvider({
   const [restaurants, setRestaurants] = useState<Establishment[]>([]);
   const [stores, setStores] = useState<Establishment[]>([]);
   const [services, setServices] = useState<Establishment[]>([]);
+  const [currentEstablishment, setCurrentEstablishment] = useState<
+    Establishment | undefined
+  >();
   const [title, setTitle] = useState<string>('');
   const [headerColor, setHeaderColor] = useState<string>('');
 
@@ -89,6 +101,28 @@ export function NavigationProvider({
     }
   };
 
+  function findEstablishment(establishmentName: string) {
+    const alias = createAlias(establishmentName);
+    const restaurant = restaurants.find((e) => createAlias(e.name) === alias);
+    const store = stores.find((e) => createAlias(e.name) === alias);
+    const service = services.find((e) => createAlias(e.name) === alias);
+
+    if (restaurant) {
+      setCurrentEstablishment(restaurant);
+      return;
+    }
+
+    if (store) {
+      setCurrentEstablishment(store);
+      return;
+    }
+
+    if (service) {
+      setCurrentEstablishment(service);
+      return;
+    }
+  }
+
   return (
     <NavigationContext.Provider
       value={{
@@ -102,6 +136,9 @@ export function NavigationProvider({
         restaurants,
         stores,
         services,
+        currentEstablishment,
+        setCurrentEstablishment,
+        findEstablishment,
         fetchEstablishments,
       }}
     >
@@ -110,4 +147,4 @@ export function NavigationProvider({
   );
 }
 
-export const useNavigation = () => useContext(NavigationContext);
+export default NavigationContext;
