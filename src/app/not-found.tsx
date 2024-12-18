@@ -11,9 +11,21 @@ export default function NotFoundPage() {
         alignItems: 'center',
         justifyContent: 'center',
         mb: '2rem',
+        textAlign: 'center',
       }}
     >
-      <Typography variant="h4" component="h4" sx={{ fontWeight: 600 }}>
+      <Typography
+        variant="h4"
+        component="h4"
+        sx={{
+          fontWeight: 600,
+          fontSize: {
+            xs: '1.75rem',
+            sm: '2rem',
+          },
+          mb: '.75rem',
+        }}
+      >
         404 - Página não encontrada
       </Typography>
       <Typography sx={{ mb: '2rem' }}>
