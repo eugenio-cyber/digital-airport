@@ -1,11 +1,11 @@
 'use client';
 
 import SearchBar from '@/components/SearchBar';
-import { useNavigation } from '@/contexts/NavigationProvider';
 import { Box, Button } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { Establishment } from '@/contexts/NavigationProvider';
 import EstablishmentCard from '@/components/EstablishmentCard';
+import useNavigation from '@/hooks/useNavigation';
 
 export default function ServicesPage() {
   const { stores, services, fetchEstablishments } = useNavigation();
