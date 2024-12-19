@@ -1,17 +1,17 @@
 import { NextResponse } from 'next/server';
-import Menu from '@/models/Menu';
+import Establishment from '@/models/Establishment';
 import connect from '@/database/mongodb';
 
 export async function GET() {
   try {
     await connect();
 
-    const menuItems = await Menu.find();
-    return NextResponse.json(menuItems, { status: 200 });
+    const establishmentItems = await Establishment.find();
+    return NextResponse.json(establishmentItems, { status: 200 });
   } catch (error) {
     return NextResponse.json(
       {
-        error: `Error fetching menu: ${error}`,
+        error: `Error fetching establishments: ${error}`,
       },
       { status: 500 }
     );
