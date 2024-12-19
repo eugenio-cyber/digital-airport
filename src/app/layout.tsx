@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import './globals.css';
 import TopBar from '@/components/TopBar';
 import BottomBar from '@/components/BottomBar';
-import { Box } from '@mui/material';
 import { NavigationProvider } from '@/contexts/NavigationProvider';
+import Background from './background';
 
 export const metadata: Metadata = {
   title: 'Seu Aeroporto',
@@ -19,17 +19,9 @@ export default function RootLayout({
     <html lang="pt-BR">
       <body>
         <TopBar />
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            minHeight: 'calc(100vh - 160px)',
-            margin: '80px 0 80px 0',
-            background: '#F3F2F2',
-          }}
-        >
+        <Background>
           <NavigationProvider>{children}</NavigationProvider>
-        </Box>
+        </Background>
         <BottomBar />
       </body>
     </html>
