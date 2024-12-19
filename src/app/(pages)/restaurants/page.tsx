@@ -1,11 +1,11 @@
 'use client';
 
 import SearchBar from '@/components/SearchBar';
-import { useNavigation } from '@/contexts/NavigationProvider';
 import { Box, Typography } from '@mui/material';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { Establishment } from '@/contexts/NavigationProvider';
+import useNavigation from '@/hooks/useNavigation';
 
 export default function RestaurantsPage() {
   const { restaurants, fetchEstablishments } = useNavigation();
