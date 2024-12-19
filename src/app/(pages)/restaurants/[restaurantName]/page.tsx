@@ -120,7 +120,7 @@ export default function RestaurantPage() {
                 left: '0',
                 top: '0',
                 bottom: '0',
-                zIndex: 10000,
+                zIndex: 900,
               }}
             />
           </Box>

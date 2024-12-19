@@ -137,7 +137,7 @@ export default function AirportMapPage() {
     >
       <Box
         sx={{
-          zIndex: 10000,
+          zIndex: 900,
           position: 'fixed',
           left: 0,
           right: 0,
@@ -151,7 +151,7 @@ export default function AirportMapPage() {
         {showCard && currentEstablishment && (
           <Box
             sx={{
-              zIndex: 10000,
+              zIndex: 900,
               position: 'absolute',
               top: '114px',
               left: '20px',
