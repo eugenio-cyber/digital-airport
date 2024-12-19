@@ -27,9 +27,32 @@ interface Flight {
 
 export default function FlightsPage() {
   const [filterText, setFilterText] = useState<string>('');
-  const [filteredFlights, setFilteredFlights] = useState<Flight[]>(flightsData);
+  const [filteredFlights, setFilteredFlights] = useState<Flight[]>();
+  const tableHeadStyle = {
+    color: '#004490',
+    fontSize: {
+      xs: '.75rem',
+      sm: '1rem',
+    },
+    border: 0,
+    p: {
+      xs: '.75rem',
+      sm: '1rem',
+    },
+  };
+  const tableBodyStyle = {
+    border: 0,
+    p: {
+      xs: '.75rem',
+      sm: '1rem',
+    },
+    fontSize: {
+      xs: '.75rem',
+      sm: '1rem',
+    },
+  };
 
-  function formateTime(date: string): string {
+  function formatTime(date: string): string {
     const localDate = new Date(date);
     const hour = localDate.getHours();
     const minute = localDate.getMinutes();
@@ -46,17 +69,18 @@ export default function FlightsPage() {
   }, [filterText]);
 
   useEffect(() => {
-    function testSort() {
-      const sortedFlights = filteredFlights.sort((a, b) => {
-        const timeA = new Date(a.time);
-        const timeB = new Date(b.time);
-        return timeA.getTime() - timeB.getTime();
+    function sortFlights() {
+      const sortedFlights = flightsData.sort((a, b) => {
+        const firstTime = new Date(a.time);
+        const secondTime = new Date(b.time);
+
+        return firstTime.getTime() - secondTime.getTime();
       });
 
       setFilteredFlights(sortedFlights);
     }
 
-    testSort();
+    sortFlights();
   }, []);
 
   return (
@@ -73,96 +97,93 @@ export default function FlightsPage() {
           boxShadow: '0px 51.72px 103.45px -17.24px #919EAB1F',
         }}
       >
-        <Table sx={{ minWidth: 650, border: 0 }} aria-label="simple table">
+        <Table
+          sx={{ border: 0, borderCollapse: 'collapse' }}
+          aria-label="simple table"
+        >
           <TableHead>
             <TableRow sx={{ backgroundColor: '#F4F6F8' }}>
-              <TableCell sx={{ color: '#004490', fontSize: '1rem', border: 0 }}>
-                Hora
-              </TableCell>
-              <TableCell sx={{ color: '#004490', fontSize: '1rem', border: 0 }}>
-                Destino
-              </TableCell>
-              <TableCell sx={{ color: '#004490', fontSize: '1rem', border: 0 }}>
-                Voo
-              </TableCell>
-              <TableCell sx={{ color: '#004490', fontSize: '1rem', border: 0 }}>
-                Status
-              </TableCell>
-              <TableCell sx={{ color: '#004490', fontSize: '1rem', border: 0 }}>
-                Portão
-              </TableCell>
-              <TableCell
-                sx={{ color: '#004490', fontSize: '1rem', border: 0 }}
-              />
+              <TableCell sx={tableHeadStyle}>Hora</TableCell>
+              <TableCell sx={tableHeadStyle}>Destino</TableCell>
+              <TableCell sx={tableHeadStyle}>Voo</TableCell>
+              <TableCell sx={tableHeadStyle}>Status</TableCell>
+              <TableCell sx={tableHeadStyle}>Portão</TableCell>
+              <TableCell sx={tableHeadStyle} />
             </TableRow>
           </TableHead>
           <TableBody>
-            {filteredFlights.map((row) => (
-              <TableRow
-                key={row.gate}
-                sx={{
-                  '&:last-child td, &:last-child th': { border: 0 },
-                  color: '#212B36',
-                }}
-              >
-                <TableCell
-                  component="th"
-                  scope="row"
-                  sx={{ border: 0, borderBottom: '1px dashed #919EAB33' }}
-                >
-                  {formateTime(row.time)}
-                </TableCell>
-                <TableCell
-                  sx={{ border: 0, borderBottom: '1px dashed #919EAB33' }}
-                >
-                  {row.destination}
-                </TableCell>
-                <TableCell
+            {filteredFlights &&
+              filteredFlights.map((flight) => (
+                <TableRow
+                  key={flight.gate}
                   sx={{
-                    border: 0,
+                    '&:last-child td, &:last-child th': { border: 0 },
+                    color: '#212B36',
                     borderBottom: '1px dashed #919EAB33',
-                    display: 'flex',
-                    flexDirection: 'column',
                   }}
                 >
-                  {row.number}
-                  <Image
-                    src={row.airlineLogo}
-                    height={20}
-                    width={60}
-                    alt={row.airlineName}
-                  />
-                </TableCell>
-                <TableCell
-                  sx={{
-                    border: 0,
-                    borderBottom: '1px dashed #919EAB33',
-                    color: row.status === 'Atrasado' ? '#FF3134' : '#212B36',
-                  }}
-                >
-                  {row.status}
-                </TableCell>
-                <TableCell
-                  sx={{ border: 0, borderBottom: '1px dashed #919EAB33' }}
-                >
-                  {row.gate}
-                </TableCell>
-                <TableCell
-                  sx={{ border: 0, borderBottom: '1px dashed #919EAB33' }}
-                >
-                  <Button
-                    variant="contained"
+                  <TableCell component="th" scope="flight" sx={tableBodyStyle}>
+                    {formatTime(flight.time)}
+                  </TableCell>
+                  <TableCell sx={tableBodyStyle}>
+                    {flight.destination}
+                  </TableCell>
+                  <TableCell
                     sx={{
-                      backgroundColor: '#004490',
-                      fontSize: '12px',
-                      textTransform: 'none',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      ...tableBodyStyle,
                     }}
                   >
-                    Ver no mapa
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
+                    {flight.number}
+                    <Box
+                      sx={{
+                        position: 'relative',
+                        height: {
+                          xs: '16px',
+                          sm: '20px',
+                        },
+                        width: {
+                          xs: '50px',
+                          sm: '60px',
+                        },
+                      }}
+                    >
+                      <Image
+                        src={flight.airlineLogo}
+                        alt={flight.airlineName}
+                        fill
+                      />
+                    </Box>
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      color:
+                        flight.status === 'Atrasado' ? '#FF3134' : '#212B36',
+                      ...tableBodyStyle,
+                    }}
+                  >
+                    {flight.status}
+                  </TableCell>
+                  <TableCell sx={tableBodyStyle}>{flight.gate}</TableCell>
+                  <TableCell sx={tableBodyStyle}>
+                    <Button
+                      variant="contained"
+                      sx={{
+                        backgroundColor: '#004490',
+                        fontSize: {
+                          xs: '.5rem',
+                          sm: '.75rem',
+                        },
+                        textTransform: 'none',
+                        px: '.5rem',
+                      }}
+                    >
+                      Ver no mapa
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
       </TableContainer>

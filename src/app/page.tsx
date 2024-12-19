@@ -1,13 +1,13 @@
 'use client';
 
-import { useNavigation } from '@/contexts/NavigationProvider';
-import { Box, Container, Typography } from '@mui/material';
+import useNavigation from '@/hooks/useNavigation';
+import { Box, CircularProgress, Container, Typography } from '@mui/material';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function Home() {
-  const { menuItems, fetchMenuItems } = useNavigation();
+  const { fetchMenuItems, menuItems } = useNavigation();
 
   useEffect(() => {
     fetchMenuItems();
@@ -58,7 +58,7 @@ export default function Home() {
         </Typography>
       </Box>
 
-      {menuItems.length > 0 && (
+      {menuItems.length > 0 ? (
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
           <Box sx={{ display: 'flex', gap: '14px', height: '10rem' }}>
             <Box
@@ -95,7 +95,7 @@ export default function Home() {
                       md: '8vw',
                     },
                     fontWeight: 600,
-                    fontSize: '16px',
+                    fontSize: '1rem',
                   }}
                 >
                   {menuItems[0].label}
@@ -143,7 +143,7 @@ export default function Home() {
                     bottom: '14px',
                     left: '18px',
                     fontWeight: 600,
-                    fontSize: '16px',
+                    fontSize: '1rem',
                   }}
                 >
                   {menuItems[1].label}
@@ -191,7 +191,7 @@ export default function Home() {
                       md: '8vw',
                     },
                     fontWeight: 600,
-                    fontSize: '16px',
+                    fontSize: '1rem',
                   }}
                 >
                   {menuItems[2].label}
@@ -232,7 +232,7 @@ export default function Home() {
                       md: '8vw',
                     },
                     fontWeight: 600,
-                    fontSize: '16px',
+                    fontSize: '1rem',
                   }}
                 >
                   {menuItems[3].label}
@@ -276,7 +276,7 @@ export default function Home() {
                     position: 'absolute',
                     left: '18px',
                     fontWeight: 600,
-                    fontSize: '16px',
+                    fontSize: '1rem',
                   }}
                 >
                   {menuItems[4].label}
@@ -290,6 +290,17 @@ export default function Home() {
               </Link>
             </Box>
           </Box>
+        </Box>
+      ) : (
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '100%',
+          }}
+        >
+          <CircularProgress />
         </Box>
       )}
     </Container>
