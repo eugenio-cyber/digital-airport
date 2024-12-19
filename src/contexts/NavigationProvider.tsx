@@ -7,8 +7,11 @@ export interface NavigationContextProps {
   setHeaderTitle(title: string): void;
   headerColor: string;
   setHeaderColor(color: string): void;
-  fetchMenuItems(): Promise<void>;
   menuItems: MenuItem[];
+  setMenuItems(items: MenuItem[]): void;
+  fetchMenuItems(): Promise<void>;
+  restaurants: Establishment[];
+  fetchEstablishments(): Promise<void>;
 }
 
 interface MenuItem {
@@ -20,6 +23,16 @@ interface MenuItem {
   textColor: string;
 }
 
+export interface Establishment {
+  name: string;
+  logo: string;
+  address: string;
+  phone: number;
+  openingHours: object;
+  serviceCategories: string[];
+  segments: string[];
+}
+
 const NavigationContext = createContext<NavigationContextProps>({} as any);
 
 export function NavigationProvider({
@@ -28,8 +41,9 @@ export function NavigationProvider({
   children: React.ReactNode;
 }>) {
   const [headerTitle, setHeaderTitle] = useState<string>('');
-  const [headerColor, setHeaderColor] = useState<string>('');
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
+  const [restaurants, setRestaurants] = useState<Establishment[]>([]);
+  const [headerColor, setHeaderColor] = useState<string>('');
 
   const fetchMenuItems = async () => {
     if (menuItems.length > 0) return;
@@ -44,15 +58,35 @@ export function NavigationProvider({
     }
   };
 
+  const fetchEstablishments = async () => {
+    if (restaurants.length) return;
+
+    try {
+      const response = await fetch('/api/establishments');
+      const data = await response.json();
+
+      const localRestaurants = data.filter((establishment: Establishment) => {
+        return establishment.segments.includes('restaurant');
+      });
+
+      setRestaurants(localRestaurants);
+    } catch (error) {
+      console.error('Erro ao buscar os estabelecimentos:', error);
+    }
+  };
+
   return (
     <NavigationContext.Provider
       value={{
+        menuItems,
+        setMenuItems,
         headerTitle,
         setHeaderTitle,
         headerColor,
         setHeaderColor,
         fetchMenuItems,
-        menuItems,
+        restaurants,
+        fetchEstablishments,
       }}
     >
       {children}

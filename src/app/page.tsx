@@ -4,10 +4,10 @@ import useNavigation from '@/hooks/useNavigation';
 import { Box, CircularProgress, Container, Typography } from '@mui/material';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 export default function Home() {
-  const { fetchMenuItems, menuItems } = useNavigation();
+  const { menuItems, fetchMenuItems } = useNavigation();
 
   useEffect(() => {
     fetchMenuItems();
