@@ -7,6 +7,8 @@ import { useEffect } from 'react';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import useNavigation from '@/hook/useNavigation';
+import { createAlias } from '@/utils/EstablishmentUtils';
+import Link from 'next/link';
 
 export default function ServicePage() {
   const { serviceName } = useParams<{ serviceName: string }>();
@@ -96,10 +98,24 @@ export default function ServicePage() {
               {currentEstablishment.address}
             </Typography>
           </Box>
-          <iframe
-            src={`https://salvador-airport-preview.blumaps.com.br/?location=${currentEstablishment.locationId}`}
-            style={{ width: '100%', height: '42vh', borderRadius: '14px' }}
-          />
+          <Box sx={{ position: 'relative' }}>
+            <iframe
+              src={`https://salvador-airport-preview.blumaps.com.br/?location=${currentEstablishment.locationId}`}
+              style={{ width: '100%', height: '42vh', borderRadius: '14px' }}
+            />
+
+            <Link
+              href={`/map/?name=${createAlias(currentEstablishment.name)}`}
+              style={{
+                position: 'absolute',
+                right: '0',
+                left: '0',
+                top: '0',
+                bottom: '0',
+                zIndex: 10000,
+              }}
+            />
+          </Box>
         </Box>
       )}
     </>

@@ -13,6 +13,7 @@ import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import { QRCodeSVG } from 'qrcode.react';
 import { createAlias } from '@/utils/EstablishmentUtils';
+import { useSearchParams } from 'next/navigation';
 
 export default function AirportMapPage() {
   const {
@@ -23,6 +24,7 @@ export default function AirportMapPage() {
     setCurrentEstablishment,
     currentEstablishment,
   } = useNavigation();
+  const searchParams = useSearchParams();
   const [filterText, setFilterText] = useState<string>('');
   const [chosenSegment, setChosenSegment] = useState<string>('');
   const [showCard, setShowCard] = useState<boolean>(false);
@@ -49,8 +51,10 @@ export default function AirportMapPage() {
   };
 
   function establishmentClick(establishment: Establishment) {
+    handleSegment(establishment);
     setCurrentEstablishment(establishment);
     setShowCard(true);
+    setFilterText('');
   }
 
   function getQrCodeUrl(segment: string, name: string): string {
@@ -68,10 +72,29 @@ export default function AirportMapPage() {
         url += '/services';
         break;
       default:
-        throw new Error(`Invalid segment: ${segment}`);
+        break;
     }
 
     return (url += `/${alias}`);
+  }
+
+  function handleSegment(establishment: Establishment) {
+    const segment = establishment.segments[0];
+
+    switch (segment) {
+      case 'restaurant':
+        setChosenSegment('Restaurantes');
+        break;
+      case 'service':
+        setChosenSegment('Serviços');
+        break;
+      case 'store':
+        setChosenSegment('Lojas');
+        break;
+      default:
+        setChosenSegment('Outros');
+        break;
+    }
   }
 
   useEffect(() => {
@@ -81,6 +104,22 @@ export default function AirportMapPage() {
 
     setFilteredEstablishments(localEstablishments);
   }, [filterText]);
+
+  useEffect(() => {
+    const establishmentName = searchParams.get('name');
+    if (!establishmentName && currentEstablishment) return;
+
+    const chosenEstablishments = establishments.find(
+      (e) => createAlias(e.name) === establishmentName
+    );
+
+    if (chosenEstablishments) {
+      handleSegment(chosenEstablishments);
+      setCurrentEstablishment(chosenEstablishments);
+      setShowCard(true);
+      setFilterText('');
+    }
+  }, [establishments]);
 
   useEffect(() => {
     fetchEstablishments();
