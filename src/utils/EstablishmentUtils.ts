@@ -35,6 +35,8 @@ export function formatOpeningHours(openingHours: OpeningHours) {
   const todayLabel = daysOfWeekPT[todayKey];
   const todayHours = openingHours[todayKey];
 
+  if (!todayHours) return 'Sem informação de horário.';
+
   if (!todayHours.isOpen) {
     return `${todayLabel}: Fechado`;
   }
