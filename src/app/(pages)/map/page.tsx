@@ -12,9 +12,8 @@ import Image from 'next/image';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import { QRCodeSVG } from 'qrcode.react';
-import { createAlias } from '@/utils/EstablishmentUtils';
+import { createAlias, formatOpeningHours } from '@/utils/EstablishmentUtils';
 import { useSearchParams } from 'next/navigation';
-import formatOpeningHours from '@/utils/openingHoursUtils';
 
 export default function AirportMapPage() {
   const {

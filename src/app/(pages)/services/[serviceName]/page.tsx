@@ -7,9 +7,8 @@ import { useEffect } from 'react';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import useNavigation from '@/hooks/useNavigation';
-import { createAlias } from '@/utils/EstablishmentUtils';
+import { createAlias, formatOpeningHours } from '@/utils/EstablishmentUtils';
 import Link from 'next/link';
-import formatOpeningHours from '@/utils/openingHoursUtils';
 
 export default function ServicePage() {
   const { serviceName } = useParams<{ serviceName: string }>();

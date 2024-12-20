@@ -8,8 +8,7 @@ import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import useNavigation from '@/hooks/useNavigation';
 import Link from 'next/link';
-import { createAlias } from '@/utils/EstablishmentUtils';
-import formatOpeningHours from '@/utils/openingHoursUtils';
+import { createAlias, formatOpeningHours } from '@/utils/EstablishmentUtils';
 
 export default function RestaurantPage() {
   const { restaurantName } = useParams<{ restaurantName: string }>();
