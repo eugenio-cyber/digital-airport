@@ -1,6 +1,6 @@
 'use client';
 
-import useNavigation from '@/hook/useNavigation';
+import useNavigation from '@/hooks/useNavigation';
 import { Box, Typography } from '@mui/material';
 import Image from 'next/image';
 import Link from 'next/link';

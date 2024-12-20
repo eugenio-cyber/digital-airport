@@ -2,7 +2,7 @@
 
 import InactivityModal from '@/components/InactivityModal';
 import NavigationHeader from '@/components/NavigationHeader';
-import useNavigation from '@/hook/useNavigation';
+import useNavigation from '@/hooks/useNavigation';
 import { Box, Container } from '@mui/material';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';

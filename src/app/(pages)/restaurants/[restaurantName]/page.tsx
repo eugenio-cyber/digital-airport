@@ -6,9 +6,10 @@ import { useParams } from 'next/navigation';
 import { useEffect } from 'react';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import InstagramIcon from '@mui/icons-material/Instagram';
-import useNavigation from '@/hook/useNavigation';
+import useNavigation from '@/hooks/useNavigation';
 import Link from 'next/link';
 import { createAlias } from '@/utils/EstablishmentUtils';
+import formatOpeningHours from '@/utils/openingHoursUtils';
 
 export default function RestaurantPage() {
   const { restaurantName } = useParams<{ restaurantName: string }>();
@@ -64,7 +65,7 @@ export default function RestaurantPage() {
               Horário de funcionamento
             </Typography>
             <Typography style={{ color: '#00000099' }}>
-              Segunda à Domingo das 10h às 22h
+              {formatOpeningHours(currentEstablishment.openingHours)}
             </Typography>
           </Box>
           <Box sx={{ mb: '2rem' }}>

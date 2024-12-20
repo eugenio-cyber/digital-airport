@@ -35,7 +35,12 @@ export interface Establishment {
   logo: string;
   address: string;
   phone: number;
-  openingHours: object;
+  openingHours: {
+    [day: string]: {
+      isOpen: boolean;
+      intervals: { start: string; end: string }[];
+    };
+  };
   serviceCategories: string[];
   segments: ('restaurant' | 'store' | 'service')[];
   backgroundImage?: string;

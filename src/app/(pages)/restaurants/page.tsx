@@ -5,7 +5,7 @@ import { Box } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { Establishment } from '@/contexts/NavigationProvider';
 import EstablishmentCard from '@/components/EstablishmentCard';
-import useNavigation from '@/hook/useNavigation';
+import useNavigation from '@/hooks/useNavigation';
 
 export default function RestaurantsPage() {
   const { restaurants } = useNavigation();
@@ -37,7 +37,6 @@ export default function RestaurantsPage() {
         sx={{
           display: 'flex',
           flexDirection: 'column',
-          '&:last-child div': { border: 0 },
         }}
       >
         {filteredRestaurants.length > 0 &&

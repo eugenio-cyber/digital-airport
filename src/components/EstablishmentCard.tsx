@@ -2,7 +2,7 @@ import { Box, Typography } from '@mui/material';
 import Image from 'next/image';
 import { Establishment } from '@/contexts/NavigationProvider';
 import { createAlias } from '@/utils/EstablishmentUtils';
-import useNavigation from '@/hook/useNavigation';
+import useNavigation from '@/hooks/useNavigation';
 import { useRouter } from 'next/navigation';
 
 export default function EstablishmentCard({
@@ -40,6 +40,7 @@ export default function EstablishmentCard({
         gap: '.75rem',
         borderBottom: '1px solid #0000001F',
         py: '1rem',
+        '&:last-child': { border: 0 },
       }}
     >
       <Image

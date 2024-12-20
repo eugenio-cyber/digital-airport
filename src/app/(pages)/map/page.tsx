@@ -14,6 +14,7 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import { QRCodeSVG } from 'qrcode.react';
 import { createAlias } from '@/utils/EstablishmentUtils';
 import { useSearchParams } from 'next/navigation';
+import formatOpeningHours from '@/utils/openingHoursUtils';
 
 export default function AirportMapPage() {
   const {
@@ -194,7 +195,7 @@ export default function AirportMapPage() {
                 Horário de funcionamento
               </Typography>
               <Typography style={{ color: '#00000099', fontSize: '.75rem' }}>
-                Segunda à Domingo das 10h às 22h
+                {formatOpeningHours(currentEstablishment.openingHours)}
               </Typography>
             </Box>
             <Box sx={{ mb: '.75rem' }}>

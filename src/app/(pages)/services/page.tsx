@@ -5,7 +5,7 @@ import { Box, Button } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { Establishment } from '@/contexts/NavigationProvider';
 import EstablishmentCard from '@/components/EstablishmentCard';
-import useNavigation from '@/hook/useNavigation';
+import useNavigation from '@/hooks/useNavigation';
 
 export default function ServicesPage() {
   const { stores, services } = useNavigation();
@@ -104,7 +104,6 @@ export default function ServicesPage() {
         sx={{
           display: 'flex',
           flexDirection: 'column',
-          '&:last-child div': { border: 0 },
         }}
       >
         {chosenSegment === 'store'
