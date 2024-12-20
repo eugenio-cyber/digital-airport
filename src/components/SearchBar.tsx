@@ -3,7 +3,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
 import { Search } from '@mui/icons-material';
 
-export interface SearchBarProps {
+interface SearchBarProps {
   value: string;
   placeholder: string;
   changeValue(value: string): void;

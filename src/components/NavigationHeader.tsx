@@ -8,8 +8,13 @@ import { usePathname } from 'next/navigation';
 import { useEffect } from 'react';
 
 export default function NavigationHeader() {
-  const { headerTitle, headerColor, setHeaderColor, setHeaderTitle } =
-    useNavigation();
+  const {
+    currentEstablishment,
+    headerTitle,
+    setHeaderTitle,
+    headerColor,
+    setHeaderColor,
+  } = useNavigation();
   const pathname = usePathname();
   const pageConfig: { [key: string]: { title: string; color: string } } = {
     '/flights': { title: 'Informações de Voos', color: '#1C1611' },
@@ -27,6 +32,13 @@ export default function NavigationHeader() {
     if (pathname.startsWith('/restaurants/')) {
       setHeaderTitle('Restaurante');
       setHeaderColor(pageConfig['/restaurants'].color);
+    } else if (pathname.startsWith('/services/')) {
+      if (currentEstablishment) {
+        setHeaderTitle(
+          currentEstablishment.segments.includes('store') ? 'Loja' : 'Serviço'
+        );
+        setHeaderColor(pageConfig['/services'].color);
+      }
     } else if (pageConfig[pathname]) {
       setHeaderTitle(pageConfig[pathname].title);
       setHeaderColor(pageConfig[pathname].color);
@@ -35,7 +47,7 @@ export default function NavigationHeader() {
 
   useEffect(() => {
     updateNavigationHeader(pathname);
-  }, [pathname]);
+  }, [pathname, currentEstablishment]);
 
   return (
     <>
@@ -58,14 +70,15 @@ export default function NavigationHeader() {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'start',
-              gap: '.75rem',
+              gap: '8px',
+              width: '100%',
               height: '100%',
             }}
           >
             <Image
               src="/back-arrow.svg"
-              height={16}
-              width={16}
+              height={20}
+              width={20}
               alt="Seta para esquerda"
             />
             <Typography

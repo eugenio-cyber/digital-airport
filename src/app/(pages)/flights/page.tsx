@@ -12,6 +12,7 @@ import SearchBar from '@/components/SearchBar';
 import { Box, Button } from '@mui/material';
 import Image from 'next/image';
 import flightsData from '../../../../flights.json';
+import Link from 'next/link';
 
 interface Flight {
   _id: string;
@@ -167,20 +168,22 @@ export default function FlightsPage() {
                   </TableCell>
                   <TableCell sx={tableBodyStyle}>{flight.gate}</TableCell>
                   <TableCell sx={tableBodyStyle}>
-                    <Button
-                      variant="contained"
-                      sx={{
-                        backgroundColor: '#004490',
-                        fontSize: {
-                          xs: '.5rem',
-                          sm: '.75rem',
-                        },
-                        textTransform: 'none',
-                        px: '.5rem',
-                      }}
-                    >
-                      Ver no mapa
-                    </Button>
+                    <Link href={flight.mapLink}>
+                      <Button
+                        variant="contained"
+                        sx={{
+                          backgroundColor: '#004490',
+                          fontSize: {
+                            xs: '.5rem',
+                            sm: '.75rem',
+                          },
+                          textTransform: 'none',
+                          px: '.5rem',
+                        }}
+                      >
+                        Ver no mapa
+                      </Button>
+                    </Link>
                   </TableCell>
                 </TableRow>
               ))}
