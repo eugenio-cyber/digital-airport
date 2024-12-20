@@ -13,7 +13,6 @@ import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import { QRCodeSVG } from 'qrcode.react';
 import { createAlias, formatOpeningHours } from '@/utils/EstablishmentUtils';
-import { useSearchParams } from 'next/navigation';
 
 export default function AirportMapPage() {
   const {
@@ -24,7 +23,6 @@ export default function AirportMapPage() {
     setCurrentEstablishment,
     currentEstablishment,
   } = useNavigation();
-  const searchParams = useSearchParams();
   const [filterText, setFilterText] = useState<string>('');
   const [chosenSegment, setChosenSegment] = useState<string>('');
   const [showCard, setShowCard] = useState<boolean>(false);
@@ -106,7 +104,9 @@ export default function AirportMapPage() {
   }, [filterText]);
 
   useEffect(() => {
-    const establishmentName = searchParams.get('name');
+    const establishmentName = new URLSearchParams(window.location.search).get(
+      'name'
+    );
     if (!establishmentName && currentEstablishment) return;
 
     const chosenEstablishments = establishments.find(
