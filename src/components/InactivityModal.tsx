@@ -28,10 +28,7 @@ export default function InactivityModal() {
   const resetInactivityTimer = () => {
     clearTimeout(inactivityTimeout);
     clearTimeout(modalTimeout);
-
-    if (isInactive) {
-      setIsInactive(false);
-    }
+    setListeners();
 
     inactivityTimeout = setTimeout(() => {
       setIsInactive(true);
@@ -42,11 +39,15 @@ export default function InactivityModal() {
     }, 40000);
   };
 
-  useEffect(() => {
+  const setListeners = () => {
     window.addEventListener('mousemove', resetInactivityTimer);
     window.addEventListener('click', resetInactivityTimer);
     window.addEventListener('keydown', resetInactivityTimer);
+    window.addEventListener('scroll', resetInactivityTimer);
+  };
 
+  useEffect(() => {
+    setListeners();
     resetInactivityTimer();
   }, []);
 
@@ -58,10 +59,25 @@ export default function InactivityModal() {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
+          <Typography
+            id="modal-modal-title"
+            variant="h6"
+            component="h2"
+            sx={{
+              fontSize: {
+                xs: '18px',
+              },
+            }}
+          >
             Você ainda está utilizando o totem?
           </Typography>
-          <Button variant="contained" onClick={() => resetInactivityTimer()}>
+          <Button
+            variant="contained"
+            onClick={() => {
+              resetInactivityTimer();
+              if (isInactive) setIsInactive(false);
+            }}
+          >
             Sim
           </Button>
         </Box>
