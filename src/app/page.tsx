@@ -5,9 +5,11 @@ import { Box, CircularProgress, Container, Typography } from '@mui/material';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 
 export default function Home() {
   const { fetchMenuItems, menuItems } = useNavigation();
+  const t = useTranslations();
 
   useEffect(() => {
     fetchMenuItems();
@@ -41,7 +43,7 @@ export default function Home() {
             },
           }}
         >
-          Bem-vindo!
+          {t('homeTitle')}
         </Typography>
         <Typography
           variant="h5"
@@ -54,7 +56,7 @@ export default function Home() {
             },
           }}
         >
-          Como podemos ajuda-lo?
+          {t('homeSubtitle')}
         </Typography>
       </Box>
 

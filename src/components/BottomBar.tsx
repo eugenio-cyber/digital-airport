@@ -1,5 +1,9 @@
 'use client';
 
+import {
+  setLanguageValue,
+  getLanguageValue,
+} from '@/utils/InternationalizationUtils';
 import { Box, Typography, Button, Menu, MenuItem } from '@mui/material';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -7,20 +11,23 @@ import { useCallback, useEffect, useState } from 'react';
 
 export default function BottomBar() {
   const [isOpen, setOpen] = useState<null | HTMLElement>(null);
-  const [currentLanguage, setCurrentLanguage] = useState<string>('Português');
+  const [currentLanguage, setCurrentLanguage] = useState<string>();
   const [time, setTime] = useState<string>();
   const [date, setDate] = useState<string>();
   const languages = [
     {
       name: 'Português',
+      abbreviation: 'pt',
       flagUrl: '/portuguese-flag.svg',
     },
     {
       name: 'Español',
+      abbreviation: 'es',
       flagUrl: '/spanish-flag.svg',
     },
     {
       name: 'English',
+      abbreviation: 'en',
       flagUrl: '/english-flag.svg',
     },
   ];
@@ -43,27 +50,44 @@ export default function BottomBar() {
       month: 'short',
     } as const;
 
-    const formattedDate = new Intl.DateTimeFormat('pt-BR', options)
+    const formattedDate = new Intl.DateTimeFormat(currentLanguage, options)
       .format(currentDate)
       .replace('-feira', '');
 
     setDate(formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1));
   };
 
-  useEffect(() => {
-    const currentDate = new Date();
-
+  const formatTime = (currentDate: Date) => {
     setInterval(() => {
-      const currentDate = new Date();
       const hour = `0${currentDate.getHours()}`.slice(-2);
       const minute = `0${currentDate.getMinutes()}`.slice(-2);
       const currentTime = `${hour}:${minute}`;
 
       setTime(currentTime);
     }, 1000);
+  };
 
+  const changeLanguage = (abbreviation: string) => {
+    setLanguageValue(abbreviation);
+    setCurrentLanguage(abbreviation);
+    handleClose();
+  };
+
+  useEffect(() => {
+    const currentDate = new Date();
+    const loadLanguage = async () => {
+      const lang = await getLanguageValue();
+      setCurrentLanguage(lang);
+    };
+
+    loadLanguage();
+    formatTime(currentDate);
     formatDate(currentDate);
   }, []);
+
+  useEffect(() => {
+    formatDate(new Date());
+  }, [currentLanguage]);
 
   return (
     <Box
@@ -119,8 +143,9 @@ export default function BottomBar() {
           >
             <Image
               src={
-                languages.find((language) => language.name === currentLanguage)
-                  ?.flagUrl || '/portuguese-flag.svg'
+                languages.find(
+                  (language) => language.abbreviation === currentLanguage
+                )?.flagUrl || '/portuguese-flag.svg'
               }
               width={34}
               height={34}
@@ -145,10 +170,9 @@ export default function BottomBar() {
           {languages.map((option) => (
             <MenuItem
               key={option.name}
-              selected={option.name === currentLanguage}
+              selected={option.abbreviation === currentLanguage}
               onClick={() => {
-                setCurrentLanguage(option.name);
-                handleClose();
+                changeLanguage(option.abbreviation);
               }}
               sx={{ display: 'flex', gap: 2 }}
             >
